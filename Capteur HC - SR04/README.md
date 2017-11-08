@@ -1,75 +1,17 @@
-Code capteur HC- SR04
+Pour réaliser ce premier montage, il va nous falloir :
 
-/* Constantes pour les broches */
+• Une carte Arduino UNO (et son câble USB),
 
-const byte TRIGGER_PIN = 2; // Broche TRIGGER
+• Un capteur HC-SR04,
 
-const byte ECHO_PIN = 3; // Broche ECHO
+• Une plaque d'essai et des fils pour câbler notre montage.
 
-/* Constantes pour le timeout */
+Le montage :
 
-const unsigned long MEASURE_TIMEOUT = 25000UL; // 25ms = ~8m à 340m/s
+• L'alimentation 5V de la carte Arduino va sur la broche VCC du capteur.
 
-/* Vitesse du son dans l'air en mm/us */
+• La broche GND de la carte Arduino va sur la broche GND du capteur.
 
-const float SOUND_SPEED = 340.0 / 1000;
+• La broche D2 de la carte Arduino va sur la broche TRIGGER du capteur.
 
-/** Fonction setup() */
-
-void setup() {
-
-/* Initialise le port série */
-
-Serial.begin(115200);
-
-/* Initialise les broches */
-
-pinMode(TRIGGER_PIN, OUTPUT);
-
-digitalWrite(TRIGGER_PIN, LOW); // La broche TRIGGER doit être à LOW au repos
-
-pinMode(ECHO_PIN, INPUT);
-
-}
-
-/** Fonction loop() */
-
-void loop() {
-
-/* 1. Lance une mesure de distance en envoyant une impulsion HIGH de 10µs sur la broche TRIGGER */
-
-digitalWrite(TRIGGER_PIN, HIGH);
-
-delayMicroseconds(10);
-
-digitalWrite(TRIGGER_PIN, LOW);
-
-/* 2. Mesure le temps entre l'envoi de l'impulsion ultrasonique et son écho (si il existe) */
-
-long measure = pulseIn(ECHO_PIN, HIGH, MEASURE_TIMEOUT);
-
-/* 3. Calcul la distance à partir du temps mesuré */
-
-float distance_mm = measure / 2.0 * SOUND_SPEED;
-
-/* Affiche les résultats en mm, cm et m */
-
-Serial.print(F("3000 "));
-
-Serial.print(distance_mm);
-
-Serial.print(F("500 ("));
-
-Serial.print(distance_mm / 10.0, 2);
-
-Serial.print(F("50, "));
-
-Serial.print(distance_mm / 1000.0, 2);
-
-Serial.println(F("0,50)"));
-
-/* Délai d'attente pour éviter d'afficher trop de résultats à la seconde */
-
-delay(500);
-
-}
+• La broche D3 de la carte Arduino va sur la broche ECHO du capteur.
